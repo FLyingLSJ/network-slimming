@@ -98,3 +98,32 @@ Note: For results of pruning 60% of the channels for resnet164-cifar100, in this
 ## Contact
 sunmj15 at gmail.com 
 liuzhuangthu at gmail.com  
+
+
+
+## 基于原始项目的修改日志
+
+
+
+原始的 `main.py` 文件中的 `train` 和 `test` 函数有点小问题
+
+```python
+# train 函数的最后一行代码 loss.data[0]  修改为 loss.data.item()
+## 原始项目代码
+print('Train Epoch: {} [{}/{} ({:.1f}%)]\tLoss: {:.6f}'.format(epoch, batch_idx * len(data), len(train_loader.dataset), 100. * batch_idx / len(train_loader), loss.data[0]))
+
+## 修改以后的代码
+print('Train Epoch: {} [{}/{} ({:.1f}%)]\tLoss: {:.6f}'.format(epoch, batch_idx * len(data), len(train_loader.dataset), 100. * batch_idx / len(train_loader), loss.data.item()))
+```
+
+
+
+```python
+# test 函数  .data[0] 修改为 .item()
+## 原始项目代码
+test_loss += F.cross_entropy(output, target, size_average=False).data[0] # sum up batch loss
+
+## 修改以后的代码
+test_loss += F.cross_entropy(output, target, size_average=False).data.item() # sum up batch loss
+```
+
